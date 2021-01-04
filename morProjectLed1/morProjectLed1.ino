@@ -16,19 +16,32 @@ void setup() {
   //ultrasonic sensor
   pinMode(trigPin, OUTPUT); // Sets the trigPin as an OUTPUT
   pinMode(echoPin, INPUT); // Sets the echoPin as an INPUT
-  Serial.println("Ultrasonic Sensor HC-SR04 Test"); // print some text in Serial Monitor
-  Serial.println("with Arduino UNO R3");
 }
 
 void off_FromTheEndToStart();
 
 void loop() {
-  Serial.println(get_Distance_Ultrasonic());
-  
+  action_By_Distance();
+
+}
+
+/// choosing leds by the distance from sensor
+void action_By_Distance(){
+  int distance = get_Distance_Ultrasonic();
+  if (distance > 2000){
+    turningOnA_Heart_M();    
+  }  
+  else if(distance > 100){
+      even_And_NotEven();
+  }
+  else {
+    on_All_Leds_Together(); 
+  }
 }
 
 
-// This function will turn A and then Heart and then the M in that order
+
+/// This function will turn A and then Heart and then the M in that order
 void turningOnA_Heart_M(){
   off_All_Leds_Together();
    for(int i=0; i < listSize/3; i++){
@@ -46,8 +59,20 @@ void turningOnA_Heart_M(){
   delay(5000);
 }
 
+/// Maxing even and not even leds
+void even_And_NotEven(){
+  for(int i=0; i<4; i++){
+    on_All_even_Leds_Together();
+    delay(1000);
+    on_All_not_even_Leds_Together();
+    delay(1000);
+  }
+  
+  
+}
 
-// Turning off all leds from the end to start
+
+/// Turning off all leds from the end to start
 void off_FromTheEndToStart(){
   for(int i=listSize-1; i >= 0; i--){
     digitalWrite(ledList[i], LOW);
@@ -57,7 +82,7 @@ void off_FromTheEndToStart(){
   }  
 }
 
-// Turning off all leds from the start to end
+/// Turning off all leds from the start to end
 void off_FromTheStartToEnd(){
   for(int i=0; i < listSize ; i++){
     digitalWrite(ledList[i], LOW);
@@ -68,7 +93,7 @@ void off_FromTheStartToEnd(){
 }
 
 
-// Turning on all the leds in the same time
+/// Turning on all the leds in the same time
 void on_All_Leds_Together(){
   for(int i=0; i < listSize; i++){
     digitalWrite(ledList[i], HIGH);
@@ -76,28 +101,30 @@ void on_All_Leds_Together(){
 }
 
 
-// Turning on all the leds in the same time
+/// Turning on all the leds in the same time
 void off_All_Leds_Together(){
   for(int i=0; i < listSize; i++){
     digitalWrite(ledList[i], LOW);
   }
 }
 
-// Turning on all even leds together
+/// Turning on all even leds together
 void on_All_even_Leds_Together(){
+  off_All_Leds_Together();
   for(int i=0; i < listSize; i+=2){
     digitalWrite(ledList[i], HIGH);
   }
 }
 
-// Turning on all not even leds together
+/// Turning on all not even leds together
 void on_All_not_even_Leds_Together(){
+  off_All_Leds_Together();
   for(int i=1; i < listSize; i+=2){
     digitalWrite(ledList[i], HIGH);
   }
 }
 
-//ultrasonic distance information
+///ultrasonic distance information
 int get_Distance_Ultrasonic(){
   long duration; // variable for the duration of sound wave travel
   int distance; // variable for the distance measurement

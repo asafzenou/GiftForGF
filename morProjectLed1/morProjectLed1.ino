@@ -15,7 +15,7 @@ void loop() {
 }
 
 
-// this function will turn A and then Heart and then the M in that order
+// This function will turn A and then Heart and then the M in that order
 void turningOnA_Heart_M(){
     digitalWrite(ledList[i], HIGH);
     delay(700);
@@ -29,7 +29,7 @@ delay(3000);
 }
 
 
-// turning off all leds from the end to that start
+// Turning off all leds from the end to that start
 void off_FromTheEndToStart(){
   for(int i=listSize-1; i >= 0; i--){
     digitalWrite(ledList[i], LOW);
